@@ -13,7 +13,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const findOrCreate = require("mongoose-findorcreate");
 
 const app = express();
-const port = 3000;
+const port = 8000;
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(
@@ -98,5 +98,5 @@ passport.deserializeUser(function (id, done) {
   });
 
 app.listen(process.env.PORT || port, function () {
-    console.log("Server started on port 3000");
+    console.log("Server started on port 8000");
   });
