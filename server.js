@@ -35,7 +35,7 @@ app.use(passport.initialize());
  app.use(passport.session());
   
   mongoose.connect(
-    "mongodb://localhost:27017/Smrtsersdb",
+    "mongodb+srv://Smarthon:08052002yash@cluster0.7drrl5m.mongodb.net/Smrtuserdb",
     { useNewUrlParser: true }
   );
   // mongoose.set("useCreateIndex", true);
