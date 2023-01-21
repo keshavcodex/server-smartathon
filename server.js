@@ -33,23 +33,47 @@ app.use(
   
 app.use(passport.initialize());
  app.use(passport.session());
-  
-  mongoose.connect(
-    "mongodb+srv://Smarthon:08052002yash@cluster0.7drrl5m.mongodb.net/Smrtuserdb",
-    { useNewUrlParser: true }
-  );
-  // mongoose.set("useCreateIndex", true);
-  
-  const userSchema = new mongoose.Schema({
-    email: String,
-    password: String
+//  mongoose.set('useNewUrlParser', true);
+ const connectDatabase = async () => {
+  try {
+    // mongoose.set("useNewUrlParser", true);
     
-  });
+    await mongoose.connect(process.env.DB_CONNECT,
+      { useNewUrlParser: true });
 
+    console.log("connected to database");
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
+
+connectDatabase();
+
+//  async function run() {
+//   await mongoose.connect(
+//     "mongodb+srv://Smarthon:08052002yash@cluster0.7drrl5m.mongodb.net/Smrtuserdb",
+//     { useNewUrlParser: true }
+//   );
+  // mongoose.set("useCreateIndex", true);
+  // }
+
+//  run();
+const userSchema = new mongoose.Schema({
+  email: String,
+  name:String,
+  dept:String,
+  college:String,
+  password: String
+  
+});
 userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
 
 const User = new mongoose.model("User", userSchema);
+
+
+
 
 passport.use(User.createStrategy());
 
@@ -63,9 +87,14 @@ passport.deserializeUser(function (id, done) {
     });
   });
 
+app.get("/register",(req,res)=>{
+
+  res.render('register');
+})
+
   app.post("/register", function (req, res) {
     User.register(
-      { username: req.body.username },
+      { username: req.body.username,name: req.body.name,dept: req.body.dept,college: req.body.college},
       req.body.password,
       function (err, user) {
         if (err) {
